@@ -20,7 +20,7 @@ end_time = None
 def expand_website_variants(website: str):
     website = website.strip().lower()
     website = website.replace("https://", "").replace("http://", "").replace("www.", "")
-    return [f"{website}.com", f"www.{website}.com"]
+    return [f"{website}.com", f"www.{website}.com", f"{website}.tv", f"www.{website}.tv"]
 
 
 def expand_app_variants(app: str):
