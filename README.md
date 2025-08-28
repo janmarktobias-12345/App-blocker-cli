@@ -9,17 +9,18 @@ It works by editing the Windows **hosts file** to block websites and killing blo
 - Block websites across all browsers  
 - Block applications (kills running processes)  
 - Set blocking duration with a timer  
-  python blocker.py --sites youtube,twitter,facebook,instagram,twitch --apps steam,discord --time 1
+  e.g python blocker.py --sites youtube,twitter,facebook,instagram,twitch --apps steam,discord --time 1
 - Automatically unblocks when the timer ends  
 - Manual **unblock immediately** option  
-  python blocker_cli.py --unblock
+  e.g python blocker_cli.py --unblock
 - Check remaining time with `--status`
-  python blocker_cli.py --status
+  e.g python blocker_cli.py --status
 
 ---
 
 ## Requirements
 - Python 3.7+  
 - Install dependencies:
+- On Windows, you must run this script as Administrator because it modifies the hosts file.
 ```bash
 
