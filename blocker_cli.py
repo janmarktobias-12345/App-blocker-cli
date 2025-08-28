@@ -34,10 +34,21 @@ def block_websites():
         with open(HOSTS_PATH, "r+") as file:
             content = file.read()
             for website in blocked_websites:
-                if website not in content:
-                    file.write(f"{REDIRECT} {website}\n")
+                entry = f"{REDIRECT} {website} #BLOCKED_BY_SCRIPT"
+                if entry not in content:  # ensure we don’t duplicate
+                    file.write(entry + "\n")
         time.sleep(5)
 
+def unblock_websites():
+    with open(HOSTS_PATH, "r") as file:
+        lines = file.readlines()
+    with open(HOSTS_PATH, "w") as file:
+        for line in lines:
+            if "#BLOCKED_BY_SCRIPT" not in line:  # remove only what script added
+                file.write(line)
+    subprocess.run("ipconfig /flushdns", shell=True)
+    if os.path.exists(STATE_FILE):
+        os.remove(STATE_FILE)
 
 def block_apps():
     while running:
@@ -49,20 +60,6 @@ def block_apps():
             except (psutil.NoSuchProcess, psutil.AccessDenied):
                 pass
         time.sleep(3)
-
-
-def unblock_websites():
-    if not blocked_websites:
-        return
-    with open(HOSTS_PATH, "r") as file:
-        lines = file.readlines()
-    with open(HOSTS_PATH, "w") as file:
-        for line in lines:
-            if not any(website in line for website in blocked_websites):
-                file.write(line)
-    subprocess.run("ipconfig /flushdns", shell=True)
-    if os.path.exists(STATE_FILE):
-        os.remove(STATE_FILE)
 
 
 def timer_countdown(minutes):
@@ -82,7 +79,7 @@ def timer_countdown(minutes):
 
     running = False
     unblock_websites()
-    print("\nTime's up! Blocking stopped.")
+    print("\rTimes up!")
 
 
 def show_status():
@@ -107,15 +104,9 @@ if __name__ == "__main__":
     parser.add_argument("--sites", type=str, default="", help="Comma separated websites (e.g. instagram,facebook)")
     parser.add_argument("--apps", type=str, default="", help="Comma separated applications (e.g. chrome,steam)")
     parser.add_argument("--time", type=int, help="Blocking duration in minutes")
-    parser.add_argument("--unblock", action="store_true", help="Unblock immediately and stop blocking")
     parser.add_argument("--status", action="store_true", help="Show remaining time")
 
     args = parser.parse_args()
-
-    if args.unblock:
-        unblock_websites()
-        print("Websites and apps unblocked immediately.")
-        exit(0)
 
     if args.status:
         show_status()

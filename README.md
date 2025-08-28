@@ -9,16 +9,18 @@ It works by editing the Windows **hosts file** to block websites and killing blo
 - Block websites across all browsers  
 - Block applications (kills running processes)  
 - Set blocking duration with a timer
-- Automatically unblocks when the timer ends  
-- Manual **unblock immediately** option
+- Automatically unblocks when the timer ends
 - Check remaining time with `--status`
   
 
 ---
-## Commands
-- python blocker_cli.py --sites youtube,twitter,facebook,instagram,twitch --apps steam,discord --time 60
+## Instructions
+- run CMD as admin
+- cd C:\Users\TO BE\PycharmProjects\AppBlocker-CLI
+- python blocker_cli.py --sites youtube,twitter,facebook,instagram,twitch --apps steam,discord --time 2
+
+Optional
 - python blocker_cli.py --status
-- python blocker_cli.py --unblock
 
 ## Requirements
 - Python 3.7+  
